@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 
 const Statistic = (props) => {
     return (
-            <p>{props.name} {props.stat}</p>
+            <tr>{props.name} {props.stat}</tr>
     )
 }
 
@@ -23,12 +23,14 @@ const App = () => {
             <button onClick={() => setNeutral(neutral+1)}> neutral</button>
             <button onClick={() => setBad(bad+1)}> bad</button>
             <h1>statistics</h1>
+            <table>
             <Statistic name={"good"} stat={good} />
             <Statistic name={"bad"} stat={bad} />
             <Statistic name={"neutral"} stat={neutral} />
             <Statistic name={"all"} stat={all} />
             <Statistic name={"average"} stat={isNaN(average) ? 0:average} />
             <Statistic name={"positive"} stat={isNaN(positive) ? 0:positive} />
+            </table>
         </div>
     )
 }
