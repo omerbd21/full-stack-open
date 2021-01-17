@@ -2,15 +2,27 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 
+const ChosenAnecdote = (props) => {
+    return ( props.votes > 0 ?
+        <div>
+            <h1>Anecdote with the most votes</h1>
+            <p> {props.maxAnecdote} </p>
+            <p> has {props.votes}</p>
+        </div> : <p>No anecdote has votes.</p>
+    )
+}
+
 const App = (props) => {
     const [selected, setSelected] = useState(0)
     const [votes, setVotes] = useState(Array.apply(null, new Array(props.anecdotes.length)).
     map(Number.prototype.valueOf,0))
+    const [maxSentence, setMaxSentence] = useState({ sentence: "", votes: 0})
     const setSentence = () => {
         setSelected(Math.floor(Math.random() * Math.floor(props.anecdotes.length)))
     }
     return (
         <div>
+            <h1>Anecdote of the day</h1>
             <p>{props.anecdotes[selected]}</p>
             <p>This anecdote has {votes[selected]} votes</p>
             <button onClick={setSentence}>next anecdote</button>
@@ -18,7 +30,12 @@ const App = (props) => {
                 const copy = [...votes]
                 copy[selected] += 1
                 setVotes(copy)
+                if (maxSentence.votes < copy[selected]){
+                    const newMaxSentence = {sentence: props.anecdotes[selected], votes: copy[selected]}
+                    setMaxSentence(newMaxSentence)
+                }
             } }>Vote</button>
+            <ChosenAnecdote maxAnecdote={maxSentence.sentence} votes={maxSentence.votes} />
         </div>
     )
 }
