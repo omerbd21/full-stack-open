@@ -6,14 +6,16 @@ const Statistics = (props) => {
     const average = (props.good + props.bad*-1) / all
     const positive = props.good / all * 100
     return (
+        isNaN(average) ? <div><h1>statistics</h1>
+                <p>No feedback given</p></div> :
         <div>
             <h1>statistics</h1>
             <p>good {props.good}</p>
             <p>neutral {props.neutral}</p>
             <p>bad {props.bad}</p>
             <p>all {all}</p>
-            <p>average {isNaN(average) ? 0: average}</p>
-            <p>positive {isNaN(positive) ? 0: positive}%</p>
+            <p>average {average}</p>
+            <p>positive {positive}%</p>
         </div>
     )
 }
