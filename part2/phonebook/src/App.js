@@ -6,6 +6,10 @@ const App = () => {
     ])
     const [ newName, setNewName ] = useState('')
     const [ newPhone, setNewPhone ] = useState('')
+    const [ searchString, setSearchString ] = useState('')
+
+
+
     const changeNewName = (event) =>{
         setNewName(event.target.value)
     }
@@ -23,16 +27,22 @@ const App = () => {
             setNewName('')
         }
     }
+    const filterPeople = (event) => {
+        setSearchString(event.target.value)
+    }
     return (
         <div>
             <h2>Phonebook</h2>
+            Filter:
+            <input onChange={filterPeople}/>
             <form>
                 <div>name: <input onChange={changeNewName} /></div>
                 <div>number: <input onChange={changeNewPhone} /></div>
                 <div><button onClick={addPerson} type="submit">add</button></div>
             </form>
             <h2>Numbers</h2>
-            {persons.map(person => <p>{person.name} {person.phone}</p>)}
+            {persons.map(person => person.name.includes(searchString) ?
+                <p>{person.name} {person.phone} </p> : undefined)}
         </div>
     )
 }
