@@ -7,10 +7,12 @@ export const getAll = () => {
 }
 
 export const create = newObject => {
-    const request = axios.post(baseUrl, newObject)
-    return request
+    return axios.post(baseUrl, newObject)
+}
+export const deletePhone = id => {
+    return axios.delete(`${baseUrl}/${id}`)
 }
 
 export default {
-    getAll, create
+    getAll, create, deletePhone
 }
