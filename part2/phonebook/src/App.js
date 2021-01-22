@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import Filter from "./Filter";
 import PersonForm from "./PersonForm";
 import Persons from "./Persons";
-import { getAll, create } from "./services/Phone"
+import { getAll, create, update } from "./services/Phone"
 
 const App = () => {
     const [ persons, setPersons ] = useState([{}])
@@ -26,7 +26,12 @@ const App = () => {
         event.preventDefault()
         const newPerson = {name: newName, phone: newPhone}
         if (persons.map(person => person.name).includes(newName)) {
-            alert(`${newName} has already been added to the phonebook.`)
+            if (window.confirm(`${newName} already exists. Do you wish to change the phone number?`))
+            {
+                const id = persons.find(person => person.name === newPerson.name).id
+                update(id,newPerson).then(() => alert(`${newName}'s phone was updated to ${newPhone}`))
+                window.location.reload(true)
+            }
         }
         else {
             create(newPerson).then(response => setPersons(persons.concat(response.data)))
