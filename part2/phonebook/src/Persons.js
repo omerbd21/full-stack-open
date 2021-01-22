@@ -6,6 +6,7 @@ const Persons = (props) => {
         if (window.confirm(`Delete ${person.name} ?`))
         {
             deletePhone(person.id).then(() => props.setErrorMessage("Deleted."))
+                .catch(() => props.setErrorMessage("Operation failed."))
             setTimeout(() => {
                 props.setErrorMessage(null)
             }, 5000)
