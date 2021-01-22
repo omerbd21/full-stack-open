@@ -5,7 +5,10 @@ const Persons = (props) => {
     const ifDelete = (person) =>{
         if (window.confirm(`Delete ${person.name} ?`))
         {
-            deletePhone(person.id).then(() => alert("Deleted."))
+            deletePhone(person.id).then(() => props.setErrorMessage("Deleted."))
+            setTimeout(() => {
+                props.setErrorMessage(null)
+            }, 5000)
             window.location.reload(true)
         }
     }

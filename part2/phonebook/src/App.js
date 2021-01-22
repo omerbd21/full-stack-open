@@ -3,12 +3,14 @@ import Filter from "./Filter";
 import PersonForm from "./PersonForm";
 import Persons from "./Persons";
 import { getAll, create, update } from "./services/Phone"
+import Notification from "./Notification";
 
 const App = () => {
     const [ persons, setPersons ] = useState([{}])
     const [ newName, setNewName ] = useState('')
     const [ newPhone, setNewPhone ] = useState('')
     const [ searchString, setSearchString ] = useState('')
+    const [ errorMessage, setErrorMessage ] = useState('ERRORS HERE')
 
 
     useEffect(() => {
@@ -29,7 +31,11 @@ const App = () => {
             if (window.confirm(`${newName} already exists. Do you wish to change the phone number?`))
             {
                 const id = persons.find(person => person.name === newPerson.name).id
-                update(id,newPerson).then(() => alert(`${newName}'s phone was updated to ${newPhone}`))
+                update(id,newPerson).then(() => setErrorMessage(`${newName}'s phone was updated to ${newPhone}`
+                ))
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 5000)
                 window.location.reload(true)
             }
         }
@@ -44,11 +50,12 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
+            <Notification message={errorMessage} />
             <Filter filterPeople={filterPeople} />
             <h3>Add a new phone: </h3>
             <PersonForm changeNewName={changeNewName} changeNewPhone={changeNewPhone} addPerson={addPerson} />
             <h2>Numbers</h2>
-            <Persons persons={persons} searchString={searchString} />
+            <Persons persons={persons} searchString={searchString} setErrorMessage={setErrorMessage} />
         </div>
     )
 }
