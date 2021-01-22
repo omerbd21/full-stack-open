@@ -6,10 +6,16 @@ import axios from "axios";
 const App = () => {
     const [countries, setCountries] = useState([{}])
     const [searchString, setSearchString] = useState('')
-    const filterPeople = (event) => {
+    const filterCountries = (event) => {
         setSearchString(event.target.value)
     }
     const URL = "https://restcountries.eu/rest/v2/name/"
+
+    const showCountry = (countryName) => {
+        return (
+            setSearchString(countryName)
+        )
+    }
 
     useEffect(() => {
         axios.get(URL + searchString).then(response => {
@@ -19,8 +25,8 @@ const App = () => {
     }, [searchString])
     return (
         <div>
-            <Filter filterPeople={filterPeople}/>
-            <Countries countries={countries} />
+            <Filter filterPeople={filterCountries}/>
+            <Countries countries={countries} showCountry={showCountry} />
         </div>
     )
 }
