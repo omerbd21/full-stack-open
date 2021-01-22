@@ -9,7 +9,7 @@ const App = () => {
     const filterCountries = (event) => {
         setSearchString(event.target.value)
     }
-    const URL = "https://restcountries.eu/rest/v2/name/"
+    const COUNTRY_URL = "https://restcountries.eu/rest/v2/name/"
 
     const showCountry = (countryName) => {
         return (
@@ -18,8 +18,7 @@ const App = () => {
     }
 
     useEffect(() => {
-        axios.get(URL + searchString).then(response => {
-            console.log('promise fulfilled')
+        axios.get(COUNTRY_URL + searchString).then(response => {
             setCountries(response.data)
         }).catch(response => console.log(response))
     }, [searchString])
