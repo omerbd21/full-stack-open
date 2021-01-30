@@ -15,7 +15,8 @@ const App = () => {
 
     useEffect(() => {
         getAll().then(response => setPersons(response.data))
-            .catch(() => setErrorMessage("Operation failed."))
+            .catch((err) => {
+                setErrorMessage(err.response.data.error)})
     }, [])
 
 
@@ -33,7 +34,7 @@ const App = () => {
             {
                 const id = persons.filter(person => person.name === newName)[0].id
                 update(id,newPerson).then(() => setErrorMessage(`${newName}'s phone was updated to ${newPhone}`
-                )).catch(() => setErrorMessage("Operation failed."))
+                )).catch((err) => {setErrorMessage(err.response.data.error)})
                 setTimeout(() => {
                     setErrorMessage(null)
                 }, 5000)
@@ -42,7 +43,9 @@ const App = () => {
         }
         else {
             create(newPerson).then(response => setPersons(persons.concat(response.data)))
-                .catch(() => setErrorMessage("Operation failed."))
+                .catch((err) => {
+                    console.log(err)
+                    setErrorMessage(err.response.data.error)})
             setNewName('')
         }
     }
