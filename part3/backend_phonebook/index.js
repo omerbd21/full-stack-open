@@ -58,7 +58,9 @@ app.post('/api/persons', (request, response, next) => {
 
     person.save().then(savedNote => {
         response.json(savedNote)
-    }).catch(error => next(error))
+    }).catch(error => {
+            return response.status(400).json({ error: error.message })
+        })
 
 })
 app.put('/api/persons/:id', (request, response,next) => {
