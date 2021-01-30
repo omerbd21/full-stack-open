@@ -27,12 +27,11 @@ const App = () => {
     }
     const addPerson = (event) => {
         event.preventDefault()
-        const newPerson = {name: newName, phone: newPhone}
+        const newPerson = {name: newName, number: newPhone}
         if (persons.map(person => person.name).includes(newName)) {
             if (window.confirm(`${newName} already exists. Do you wish to change the phone number?`))
             {
-                const id = persons.find(person => person.name === newPerson.name).id
-                update(id,newPerson).then(() => setErrorMessage(`${newName}'s phone was updated to ${newPhone}`
+                update(newName,newPerson).then(() => setErrorMessage(`${newName}'s phone was updated to ${newPhone}`
                 )).catch(() => setErrorMessage("Operation failed."))
                 setTimeout(() => {
                     setErrorMessage(null)

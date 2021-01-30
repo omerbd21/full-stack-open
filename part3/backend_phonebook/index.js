@@ -113,7 +113,7 @@ app.patch('/api/persons/:name', (request, response) => {
 
 
 const PORT = 3001
-app.listen(PORT, () => {
+app.listen(process.env.port ||PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
 morgan.token('method', (req, res) => {
