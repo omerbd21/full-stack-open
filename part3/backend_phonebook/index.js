@@ -11,7 +11,6 @@ app.use(cors())
 app.use(express.static('build'))
 
 const Person = require('./models/person')
-const mongoose = require("mongoose");
 const PORT = process.env.PORT
 
 /* GET home page. */
@@ -31,15 +30,10 @@ app.get('/api/persons/:id', (request, response) => {
 
 })
 app.delete('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(note => note.id === id)
-    persons = persons.filter(person => person.id !== id)
-
-    if (person) {
-        response.status(204).end()
-    } else {
-        response.status(404).end()
-    }
+    Person.findByIdAndRemove(request.params.id)
+        .then(result => {
+            response.status(204).end()
+        })
 })
 
 const generateId = () => {
