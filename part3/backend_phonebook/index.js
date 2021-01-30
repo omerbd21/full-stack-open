@@ -21,26 +21,26 @@ app.get('/', function (req, res, next) {
 app.get('/api/persons', function (req, res, next) {
     Person.find({}).then(person => {
         res.json(person)
-    })
+    }).catch(error => next(error))
 });
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
     Person.findById(request.params.id).then(person => {
         response.json(person)
-    })
+    }).catch(error => next(error))
 
 })
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
     Person.findByIdAndRemove(request.params.id)
         .then(result => {
             response.status(204).end()
-        })
+        }).catch(error => next(error))
 })
 
 const generateId = () => {
     return Math.floor(Math.random() * Math.floor(5000));
 }
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
     const body = request.body
 
     if (!body.name || !body.number) {
@@ -58,10 +58,10 @@ app.post('/api/persons', (request, response) => {
 
     person.save().then(savedNote => {
         response.json(savedNote)
-    })
+    }).catch(error => next(error))
 
 })
-app.patch('/api/persons/:name', (request, response) => {
+app.patch('/api/persons/:name', (request, response,next) => {
     const name = request.params.name
     const body = request.body
     const person = persons.find(person => {if (person.name === name)
