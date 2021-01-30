@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors')
@@ -9,26 +10,9 @@ app.use(morgan('tiny'));
 app.use(cors())
 app.use(express.static('build'))
 
-let persons = [{
-    "name": "Arto Hellas",
-    "number": "040-123456",
-    "id": 1
-},
-    {
-        "name": "Ada Lovelace",
-        "number": "39-44-5323523",
-        "id": 2
-    },
-    {
-        "name": "Dan Abramov",
-        "number": "12-43-234345",
-        "id": 3
-    },
-    {
-        "name": "Mary Poppendieck",
-        "number": "39-23-6423122",
-        "id": 4
-    }]
+const Person = require('./models/person')
+const mongoose = require("mongoose");
+const PORT = process.env.PORT
 
 /* GET home page. */
 app.get('/', function (req, res, next) {
@@ -36,9 +20,10 @@ app.get('/', function (req, res, next) {
 });
 
 app.get('/api/persons', function (req, res, next) {
-    res.json(persons)
+    Person.find({}).then(person => {
+        res.json(person)
+    })
 });
-
 app.get('/info', function (req, res, next) {
     res.set('Content-Type', 'text/html');
     res.send(Buffer.from('<p>Phonebook has info for ' + persons.length + ' people</p>' +
@@ -112,7 +97,6 @@ app.patch('/api/persons/:name', (request, response) => {
 })
 
 
-const PORT = 3001
 app.listen(process.env.PORT ||PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
