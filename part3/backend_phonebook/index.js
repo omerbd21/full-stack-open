@@ -24,19 +24,11 @@ app.get('/api/persons', function (req, res, next) {
         res.json(person)
     })
 });
-app.get('/info', function (req, res, next) {
-    res.set('Content-Type', 'text/html');
-    res.send(Buffer.from('<p>Phonebook has info for ' + persons.length + ' people</p>' +
-        '<p>' + new Date().toString() + '</p>'));
-});
 app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(note => note.id === id)
-    if (person) {
+    Person.findById(request.params.id).then(person => {
         response.json(person)
-    } else {
-        response.status(404).end()
-    }
+    })
+
 })
 app.delete('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
@@ -63,22 +55,17 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
-    if (persons.map(person => person.name).includes(body.name)) {
-        return response.status(400).json({
-            error: 'name must be unique'
-        })
-    }
-
-    const person = {
+    const person = new Person ({
         name: body.name,
         number: body.number,
         date: new Date(),
         id: generateId(),
-    }
+    })
 
-    persons = persons.concat(person)
+    person.save().then(savedNote => {
+        response.json(savedNote)
+    })
 
-    response.json(person)
 })
 app.patch('/api/persons/:name', (request, response) => {
     const name = request.params.name
