@@ -95,6 +95,21 @@ app.post('/api/persons', (request, response) => {
 
     response.json(person)
 })
+app.patch('/api/persons/:name', (request, response) => {
+    const name = request.params.name
+    const body = request.body
+    const person = persons.find(person => {if (person.name === name)
+    return person})
+    if (person === undefined)
+    {
+        response.status(404).end()
+    }
+    else
+    {
+        person.number = body.number
+    }
+    response.json(person)
+})
 
 
 const PORT = 3001
@@ -102,6 +117,7 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
 morgan.token('method', (req, res) => {
-    if (req.method === 'POST'){
+    if (req.method === 'POST') {
         return JSON.stringify(req.body)
-    }});
+    }
+});
