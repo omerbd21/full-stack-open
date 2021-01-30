@@ -61,20 +61,21 @@ app.post('/api/persons', (request, response, next) => {
     }).catch(error => next(error))
 
 })
-app.patch('/api/persons/:name', (request, response,next) => {
-    const name = request.params.name
+app.put('/api/persons/:id', (request, response,next) => {
     const body = request.body
-    const person = persons.find(person => {if (person.name === name)
-    return person})
-    if (person === undefined)
-    {
-        response.status(404).end()
+    const id = request.params.id
+    const person = {
+        name: body.name,
+        number: body.number,
+        date: new Date(),
+        id: id,
     }
-    else
-    {
-        person.number = body.number
-    }
-    response.json(person)
+
+    Person.findByIdAndUpdate(request.params.id, person, { new: true })
+        .then(updatedPerson => {
+            response.json(updatedPerson)
+        })
+        .catch(error => next(error))
 })
 
 

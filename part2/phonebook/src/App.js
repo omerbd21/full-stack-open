@@ -31,7 +31,8 @@ const App = () => {
         if (persons.map(person => person.name).includes(newName)) {
             if (window.confirm(`${newName} already exists. Do you wish to change the phone number?`))
             {
-                update(newName,newPerson).then(() => setErrorMessage(`${newName}'s phone was updated to ${newPhone}`
+                const id = persons.filter(person => person.name === newName)[0].id
+                update(id,newPerson).then(() => setErrorMessage(`${newName}'s phone was updated to ${newPhone}`
                 )).catch(() => setErrorMessage("Operation failed."))
                 setTimeout(() => {
                     setErrorMessage(null)
