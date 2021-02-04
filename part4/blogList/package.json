@@ -6,6 +6,7 @@
     "test": "jest --verbose"
   },
   "dependencies": {
+    "@jest/globals": "^26.6.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.11.15"
