@@ -6,4 +6,10 @@ const totalLikes = (blogs) => {
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
     return blogs.reduce(reducer)
 }
-module.exports = {dummy, totalLikes}
+const getFavouriteBlog = (blogs) => {
+   const max = blogs.reduce(function(prev, current) {
+        return (prev.likes > current.likes) ? prev : current
+    })
+    return (({ author, likes, title }) => ({ author, likes, title }))(max);
+}
+module.exports = {dummy, totalLikes, getFavouriteBlog}
