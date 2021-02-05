@@ -13,12 +13,25 @@ test('blogs are returned as json', async () => {
 
 })
 test('there is an id to a blog', async () => {
-    const blogs = await api
+    await api
         .get('/api/blogs')
         .expect(200)
         .expect('Content-Type', /application\/json/).expect(blogs => {if (blogs.length > 0) {blogs[0]._id}})
     jest.setTimeout(30000);
 });
+test('blogs are returned as json', async () => {
+    const blogs = await api
+        .get('/api/blogs')
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+    const oldLength = blogs.length
+    await api
+        .post('/api/blogs')
+        .expect(201)
+        .expect('Content-Type', /application\/json/).expect(blogs => blogs.length === oldLength + 1)
+    jest.setTimeout(30000);
+
+})
 
 
 afterAll(() => {
