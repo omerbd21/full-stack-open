@@ -12,4 +12,19 @@ const getFavouriteBlog = (blogs) => {
     })
     return (({ author, likes, title }) => ({ author, likes, title }))(max);
 }
-module.exports = {dummy, totalLikes, getFavouriteBlog}
+const mostBlogs = (blogs) => {
+    const uniqueAuthors = [...new Set(blogs.map(blog => blog.author))]
+    const getOccurrence = (array, value) => {
+        let count = 0;
+        array.forEach((v) => (v.author === value && count++));
+        return count;
+    }
+    const authorCount = (uniqueAuthors, getOccurrence) => {
+        return uniqueAuthors.map( (author) => ({author: author, blogs: getOccurrence(blogs,author)}))
+    }
+    const max = authorCount(uniqueAuthors, getOccurrence).reduce(function(prev, current) {
+        return (prev.blogs > current.blogs) ? prev : current
+    })
+    return (({ author, blogs }) => ({ author, blogs }))(max);
+}
+module.exports = {dummy, totalLikes, getFavouriteBlog, mostBlogs}
