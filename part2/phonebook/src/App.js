@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import NumbersPanel from './NumbersPanel'
 import InputPanel from './InputPanel'
+import Filter from './Filter'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -51,8 +52,7 @@ const addPerson = (event) => {
 }
   return (
     <div>
-      <h1>phonebook: </h1>
-      <p>filter shown with:<input value={newFilter} onChange={handleFilterChange}/> </p>
+      <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
       <InputPanel addPerson={addPerson} handleNameChange={handleNameChange} newName={newName} handleNumberChange={handleNumberChange} newNumber={newNumber} />
       <NumbersPanel persons={filteredData} />
     </div>
