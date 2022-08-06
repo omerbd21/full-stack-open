@@ -1,16 +1,23 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import NumbersPanel from './NumbersPanel'
 import InputPanel from './InputPanel'
 import Filter from './Filter'
+import axios from 'axios'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: 0 }
-  ]) 
+  const [persons, setPersons] = useState([{}]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
 
+
+useEffect(() => {
+  const eventHandler = response => {
+    setPersons(response.data)
+  }
+  const promise = axios.get('http://localhost:3001/persons')
+  promise.then(eventHandler)
+}, [])
 
 const handleNameChange = (event) => {
     setNewName(event.target.value)
