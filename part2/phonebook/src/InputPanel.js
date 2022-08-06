@@ -1,7 +1,7 @@
 const InputPanel = (props) => {
     return (
         <div>
-        <h2>Phonebook</h2>
+        <h2>Add a new number: </h2>
         <form>
           <div>
             <p>name: <input value={props.newName} onChange={props.handleNameChange} /></p>
